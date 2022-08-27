@@ -1,5 +1,7 @@
 package test;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,7 +17,10 @@ public class TableInCricbuzz {
 		driver=new ChromeDriver();
 		driver.get("http://www.cricbuzz.com/live-cricket-scorecard/18970/pak-vs-sl-2nd-t20i-pakistan-v-sri-lanka-in-uae-2017");
 		driver.manage().window().maximize();
-		driver.switchTo().frame(1);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		WebElement frames=driver.findElement(By.cssSelector("iframe[title*='Iframe']"));
+		driver.switchTo().frame(frames);
+		System.out.println(driver.findElement(By.cssSelector(".message-component.message-row")).getText());
 		driver.findElement(By.cssSelector("button[title='Accept']")).click();
 		driver.switchTo().defaultContent();
 		WebElement table=driver.findElement(By.cssSelector("div[class='cb-col cb-col-100 cb-ltst-wgt-hdr']"));
@@ -46,7 +51,8 @@ public class TableInCricbuzz {
 		{
 		System.out.println("count fails");
 		}
+		driver.close();
 		}
-
+       
 	}
 
